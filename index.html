@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hasan Mohammad — Electrical Engineering</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #F7F5F0;
+      --surface: #FFFFFF;
+      --text: #1A1714;
+      --muted: #8A8480;
+      --accent: #2B5CE6;
+      --accent-light: #EEF2FD;
+      --border: #E2DED8;
+      --mono: 'DM Mono', monospace;
+      --serif: 'DM Serif Display', serif;
+      --sans: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.4rem 4rem;
+      background: rgba(247,245,240,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--mono); font-size: 0.8rem; color: var(--accent); letter-spacing: 0.08em; text-decoration: none; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 6rem 4rem 4rem;
+      position: relative;
+    }
+    .hero-grid-bg {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.4;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    }
+    .hero-inner { position: relative; max-width: 820px; text-align: center; }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--mono); font-size: 0.72rem; color: var(--accent);
+      background: var(--accent-light); border: 1px solid rgba(43,92,230,0.2);
+      padding: 0.3rem 0.8rem; border-radius: 2rem; letter-spacing: 0.08em; margin-bottom: 2rem;
+      animation: fadeUp 0.6s 0.2s both;
+    }
+    .hero-tag::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+    h1 { font-family: var(--serif); font-size: clamp(3rem, 7vw, 5.5rem); line-height: 1.08; letter-spacing: -0.02em; animation: fadeUp 0.7s 0.35s both; }
+    h1 em { color: var(--accent); font-style: italic; }
+    .hero-sub { margin-top: 1.6rem; font-size: 1.05rem; color: var(--muted); max-width: 520px; margin-inline: auto; animation: fadeUp 0.7s 0.5s both; }
+    .hero-cta { margin-top: 2.8rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; animation: fadeUp 0.7s 0.65s both; }
+
+    .btn { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.06em; padding: 0.75rem 1.8rem; border-radius: 4px; text-decoration: none; transition: all 0.2s; cursor: pointer; display: inline-block; }
+    .btn-primary { background: var(--text); color: var(--bg); border: 1px solid var(--text); }
+    .btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+    .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-ghost:hover { border-color: var(--text); }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* SECTIONS */
+    section { padding: 7rem 4rem; }
+    .container { max-width: 1100px; margin-inline: auto; }
+    .section-label { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.8rem; }
+    .section-sublabel { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.2rem; }
+    h2 { font-family: var(--serif); font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1.15; margin-bottom: 3rem; }
+
+    /* ABOUT */
+    #about { background: var(--surface); }
+    .about-layout { display: grid; grid-template-columns: 1fr 1.5fr; gap: 5rem; align-items: start; }
+    .about-img-wrap { position: relative; aspect-ratio: 3/4; max-height: 480px; }
+    .about-img-placeholder {
+      width: 100%; height: 100%; background: var(--accent-light);
+      border: 1px solid rgba(43,92,230,0.15);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0.8rem; color: var(--accent); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em;
+    }
+    .about-img-placeholder .ph-icon { font-size: 3rem; }
+    .about-img-wrap::after { content: ''; position: absolute; inset: 12px -12px -12px 12px; border: 1px solid var(--border); z-index: -1; }
+    .about-text p { color: var(--muted); margin-bottom: 1.2rem; }
+    .about-text p:first-of-type { font-size: 1.1rem; color: var(--text); font-weight: 400; }
+    .about-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+    .stat-num { font-family: var(--serif); font-size: 2rem; color: var(--accent); line-height: 1; }
+    .stat-label { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); letter-spacing: 0.06em; margin-top: 0.25rem; }
+
+    /* EXPERIENCE */
+    #experience { background: var(--bg); }
+    .exp-list { display: flex; flex-direction: column; gap: 1.5rem; }
+    .exp-card { background: var(--surface); border: 1px solid var(--border); padding: 2rem 2.2rem; display: grid; grid-template-columns: 1fr auto; gap: 0.3rem 2rem; transition: box-shadow 0.25s; }
+    .exp-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.05); }
+    .exp-org { font-family: var(--serif); font-size: 1.2rem; }
+    .exp-date { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.05em; white-space: nowrap; padding-top: 4px; }
+    .exp-role { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); letter-spacing: 0.06em; }
+    .exp-bullets { margin-top: 1rem; grid-column: 1 / -1; display: flex; flex-direction: column; gap: 0.5rem; }
+    .exp-bullets li { color: var(--muted); font-size: 0.9rem; padding-left: 1.2rem; position: relative; list-style: none; }
+    .exp-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--accent); font-size: 0.7rem; top: 0.25rem; }
+
+    /* PROJECTS */
+    #projects { background: var(--surface); }
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+    .projects-grid--2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    @media (max-width: 700px) { .projects-grid--2 { grid-template-columns: 1fr; } }
+
+    /* Flagship wide card */
+    .project-flagship {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      gap: 0;
+      margin-bottom: 1.5rem;
+      transition: box-shadow 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-flagship::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent); }
+    .project-flagship:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.07); }
+    .flagship-img {
+      /*aspect-ratio: 4/5;*/
+      background: var(--accent-light);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0.5rem; font-family: var(--mono); font-size: 0.65rem; color: rgba(43,92,230,0.5);
+      letter-spacing: 0.06em; overflow: hidden; position: relative;
+    }
+    .flagship-img img { width: 100%; height: 100%; object-fit: cover; }
+    .flagship-img .img-icon { font-size: 2.5rem; }
+    .flagship-body { padding: 2.2rem; display: flex; flex-direction: column; justify-content: center; }
+    .flagship-eyebrow { font-family: var(--mono); font-size: 0.65rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.6rem; }
+    .flagship-title { font-family: var(--serif); font-size: 1.6rem; line-height: 1.2; margin-bottom: 0.4rem; }
+    .flagship-org { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 1rem; }
+    .flagship-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.65; }
+    .flagship-tags { margin-top: 1.2rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+    /* Regular project cards */
+    .project-card { background: var(--bg); border: 1px solid var(--border); padding: 2rem; transition: transform 0.25s, box-shadow 0.25s; position: relative; overflow: hidden; }
+    .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.3s; }
+    .project-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.06); }
+    .project-card:hover::before { transform: scaleX(1); }
+    .project-img {
+      width: 100%; 
+      /* aspect-ratio: 16/9; */
+      background: var(--accent-light); border: 1px dashed rgba(43,92,230,0.25);
+      display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 0.5rem;
+      margin-bottom: 1.5rem; font-family: var(--mono); font-size: 0.65rem;
+      color: rgba(43,92,230,0.5); letter-spacing: 0.06em; position: relative; overflow: hidden;
+    }
+    .project-img img { width: 100%; height: 100%; object-fit: contain; position: absolute; inset: 0; }
+    .project-img .img-icon { font-size: 1.5rem; }
+    .project-eyebrow { font-family: var(--mono); font-size: 0.65rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .project-title { font-family: var(--serif); font-size: 1.2rem; margin-bottom: 0.4rem; }
+    .project-org { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 0.8rem; }
+    .project-desc { color: var(--muted); font-size: 0.88rem; line-height: 1.65; }
+    .project-tags { margin-top: 1.4rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.05em; padding: 0.25rem 0.6rem; background: var(--accent-light); color: var(--accent); border-radius: 2px; }
+
+    /* AWARDS */
+    #awards { background: var(--bg); }
+    .awards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.2rem; }
+    .award-card { background: var(--surface); border: 1px solid var(--border); padding: 1.6rem; transition: box-shadow 0.25s; }
+    .award-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.05); }
+    .award-year { font-family: var(--mono); font-size: 0.68rem; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+    .award-name { font-size: 0.95rem; font-weight: 400; line-height: 1.4; }
+
+    /* SKILLS */
+    #skills { background: var(--surface); }
+    .skills-layout { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2.5rem; }
+    .skill-group h3 { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.6rem; }
+    .skill-group h3::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .skill-item { display: flex; justify-content: space-between; align-items: center; padding: 0.65rem 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; gap: 1rem; }
+    .skill-bar-wrap { width: 80px; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; flex-shrink: 0; }
+    .skill-bar { height: 100%; background: var(--accent); border-radius: 2px; }
+
+    /* CONTACT */
+    #contact { background: var(--text); color: var(--bg); }
+    #contact .section-label { color: rgba(255,255,255,0.4); }
+    #contact h2 { color: var(--bg); }
+    .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .contact-blurb { color: rgba(247,245,240,0.55); font-size: 1rem; line-height: 1.8; }
+    .contact-links { margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem; }
+    .contact-link { display: flex; align-items: center; gap: 1rem; color: rgba(247,245,240,0.7); text-decoration: none; font-family: var(--mono); font-size: 0.82rem; letter-spacing: 0.04em; transition: color 0.2s; word-break: break-all; }
+    .contact-link:hover { color: var(--bg); }
+    .contact-link-icon { width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.12); display: grid; place-items: center; font-size: 0.95rem; flex-shrink: 0; }
+    .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+    .form-field { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-field label { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.1em; color: rgba(247,245,240,0.35); text-transform: uppercase; }
+    .form-field input, .form-field textarea { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--bg); font-family: var(--sans); font-size: 0.9rem; padding: 0.8rem 1rem; outline: none; transition: border-color 0.2s; resize: none; }
+    .form-field input:focus, .form-field textarea:focus { border-color: rgba(255,255,255,0.35); }
+    .form-field input::placeholder, .form-field textarea::placeholder { color: rgba(247,245,240,0.2); }
+    .btn-send { align-self: flex-start; background: var(--bg); color: var(--text); border: none; font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.06em; padding: 0.85rem 2rem; cursor: pointer; transition: background 0.2s, color 0.2s; }
+    .btn-send:hover { background: var(--accent); color: white; }
+
+    footer { padding: 2rem 4rem; background: var(--text); border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center; }
+    footer span { font-family: var(--mono); font-size: 0.68rem; color: rgba(247,245,240,0.25); letter-spacing: 0.06em; }
+
+    hr.section-divider { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0 2rem; }
+
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { gap: 1rem; }
+      section { padding: 5rem 1.5rem; }
+      #hero { padding: 6rem 1.5rem 3rem; }
+      .about-layout, .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+      .project-flagship { grid-template-columns: 1fr; }
+      .exp-card { grid-template-columns: 1fr; }
+      .exp-date { order: -1; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#hero" class="nav-logo">HM / EE</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#awards">Awards</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">Electrical Engineering · UBC Okanagan</div>
+    <h1>Hasan <em>Mohammad</em></h1>
+    <p class="hero-sub">Building precision electronics — from nanoscale bioelectronics research to autonomous underwater vehicles competing on the world stage.</p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="https://www.linkedin.com/in/hasan-moh/" target="_blank" class="btn btn-ghost">LinkedIn →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-layout">
+      <div class="about-img-wrap">
+        <div class="about-img-placeholder">
+          <!-- Replace with: <img src="your-photo.jpg" alt="Hasan Mohammad" style="width:100%;height:100%;object-fit:cover;"> -->
+          <span class="ph-icon">📷</span>
+          <span>Add your photo here</span>
+        </div>
+      </div>
+      <div class="about-text">
+        <p class="section-label">About Me</p>
+        <h2>Precision engineering at the <em style="font-style:italic;font-family:var(--serif)">nanoscale</em> and beyond.</h2>
+        <p>I'm a second-year Electrical Engineering student at UBC Okanagan with a passion for embedded systems, PCB design, and pushing hardware to its limits. From correcting nanoscale drift in DNA imaging to leading a globally competitive robotics team, I thrive where the margin for error is measured in microns.</p>
+        <p>Currently serving as Electrical Lead at Okanagan Marine Robotics, where our autonomous underwater vehicle placed 11th globally (2nd in Canada) at RoboSub 2025. I also work as a Research Assistant in the UBC Molecular Data Storage Lab, developing precision Python tooling for AFM-based nanoscale imaging.</p>
+        <p>Actively seeking co-op opportunities in embedded systems, power electronics, or hardware design.</p>
+        <div class="about-stats">
+          <div>
+            <div class="stat-num">92%</div>
+            <div class="stat-label">CGPA</div>
+          </div>
+          <div>
+            <div class="stat-num">11th</div>
+            <div class="stat-label">RoboSub Globally</div>
+          </div>
+          <div>
+            <div class="stat-num">300+</div>
+            <div class="stat-label">Students Reached</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <p class="section-label">Experience</p>
+    <h2>Where I've <em style="font-family:var(--serif);font-style:italic">worked.</em></h2>
+    <div class="exp-list">
+      <div class="exp-card">
+        <div class="exp-org">UBC Molecular Data Storage Lab</div>
+        <div class="exp-date">Oct 2024 – Present</div>
+        <div class="exp-role">Research Assistant · Kelowna, BC</div>
+        <ul class="exp-bullets">
+          <li>Designed and validated fluidic chambers for AFM-based characterization of DNA origami, improving imaging stability at ~20nm resolution</li>
+          <li>Developed Python-based program to quantify and correct nanoscale drift in DNA imaging to &gt;10nm accuracy</li>
+          <li>Conducted literature review and experimental planning for nanoscale bioelectronic systems, presenting findings to guide research directions</li>
+          <li>Created engineering drawings and collaborated with technicians to fabricate parts with 0.067mm precision</li>
+        </ul>
+      </div>
+      <div class="exp-card">
+        <div class="exp-org">Okanagan Marine Robotics</div>
+        <div class="exp-date">Sept 2024 – Present</div>
+        <div class="exp-role">Electrical Lead · Engineering Design Team</div>
+        <ul class="exp-bullets">
+          <li>Led electromechanical integration and validation of an autonomous underwater vehicle, coordinating 6 embedded electronics, sensing, power, and communication subsystems</li>
+          <li>Performed advanced PCB rework on 19 PCBs with 0402 SMD, QFN, and IC packages to solder, repair, and validate boards</li>
+          <li>Debugged and validated power and communication subsystems across 12 PCBs using oscilloscopes and firmware-level diagnostics</li>
+          <li>Currently leading design of full 2025 electrical suite — 7 PCBs including killswitch, power distribution, servo control, and STM32 main controller</li>
+          <li>System achieved 11th place out of 58 international teams (2nd in Canada) at RoboSub competition</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <p class="section-label">Projects</p>
+    <h2>Things I've <em style="font-family:var(--serif);font-style:italic">built.</em></h2>
+
+    <!-- AUV FLAGSHIP -->
+    <p class="section-sublabel">Okanagan Marine Robotics</p>
+    <div class="project-flagship">
+      <div class="flagship-img">
+          <img src="okmr_v2.jpg" alt="AUV">
+      </div>
+      <div class="flagship-body">
+        <div class="flagship-eyebrow">Flagship Project</div>
+        <div class="flagship-title">Autonomous Underwater Vehicle</div>
+        <div class="flagship-org">RoboSub 2025 · Summer Build & Integration</div>
+        <p class="flagship-desc">Led the full summer build and system integration of an AUV competing at RoboSub — coordinating 6 electrical subsystems across 19 PCBs. Responsible for system-level debugging, mechanical integration, advanced PCB rework, and getting the vehicle competition-ready. Achieved 11th of 58 international teams, 2nd in Canada.</p>
+        <div class="flagship-tags">
+          <span class="tag">Hardware Design</span>
+          <span class="tag">Altium</span>
+          <span class="tag">System Integration</span>
+          <span class="tag">PCB Rework</span>
+          <span class="tag">Leadership</span>
+          <span class="tag">Embedded Systems</span>
+          <span class="tag">Embedded Programming</span>
+          <span class="tag">RoboSub 2025</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- AUV SUB-PROJECTS -->
+    <div class="projects-grid" style="margin-bottom: 3rem;">
+      <div class="project-card">
+        <div class="project-img">
+          <img src="stm32_board.png" alt="STM32F7 Main Controller PCB — Altium Render">
+        </div>
+        <div class="project-eyebrow">Solo Project</div>
+        <div class="project-title">STM32F7 Main Controller Board</div>
+        <div class="project-org">Okanagan Marine Robotics · 2025</div>
+        <p class="project-desc">Designed the central compute and control board for the AUV — the brain coordinating every electrical subsystem. Features CAN bus control of all subsystems, USB-to-JTAG debug interface, NVIDIA Jetson communication, leak and environmental sensors, 8-channel PWM thruster control, and a board-to-board connector that slots directly into the power distribution board.</p>
+        <div class="project-tags">
+          <span class="tag">STM32F7</span>
+          <span class="tag">Altium Designer</span>
+          <span class="tag">CAN Bus</span>
+          <span class="tag">USB-to-JTAG</span>
+          <span class="tag">8× PWM</span>
+          <span class="tag">Jetson Interface</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-img">
+          <!-- Replace with: <img src="pcb-suite.jpg" alt="PCB Suite"> -->
+          <span class="img-icon">🔌</span>
+          <span>Add PCB photo</span>
+        </div>
+        <div class="project-title">Full Electrical Architecture — 7 PCBs</div>
+        <div class="project-org">Okanagan Marine Robotics · 2025</div>
+        <p class="project-desc">Led design of the complete 2025 electrical suite: killswitch, power distribution board, servo and actuator control board, STM32 main controller, and support PCBs. Coordinated design across the team to ensure all boards integrate cleanly as a unified system.</p>
+        <div class="project-tags">
+          <span class="tag">PCB Design Lead</span>
+          <span class="tag">Power Distribution</span>
+          <span class="tag">Killswitch</span>
+          <span class="tag">Servo Control</span>
+          <span class="tag">Altium Designer</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-img">
+          <!-- Add PCB render or photo when ready -->
+          <span class="img-icon">🔧</span>
+          <span>Add PCB photo / render</span>
+        </div>
+        <div class="project-title">PCB Title — Coming Soon</div>
+        <div class="project-org">Okanagan Marine Robotics · 2025</div>
+        <p class="project-desc">Description coming soon.</p>
+        <div class="project-tags">
+          <span class="tag">Altium Designer</span>
+          <span class="tag">PCB Design</span>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- ISS FLAGSHIP -->
+    <p class="section-sublabel">International Space Station</p>
+    <div class="project-flagship" style="margin-bottom:1.5rem;">
+      <div class="flagship-img">
+          <img src="ISS_Main1.jpg" alt="ISS Earth View"> 
+      </div>
+      <div class="flagship-body">
+        <div class="flagship-eyebrow">4 Experiments · Orbit</div>
+        <div class="flagship-title">Live Science Aboard the ISS</div>
+        <div class="flagship-org">2019 – 2023 · Secondary School</div>
+        <p class="flagship-desc">Designed, programmed, and deployed four independent scientific experiments that executed live on the International Space Station — returning real imagery and sensor data from orbit. Each experiment tackled a distinct research question, from climate science to astrobotany. Two projects were recognised as global Top 50 Finalists by ESA Mission Space Lab, a globally competitive program where only a small fraction of submissions are chosen to run in space.</p>
+        <div class="flagship-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Machine Learning</span>
+          <span class="tag">Remote Sensing</span>
+          <span class="tag">ESA Mission Space Lab</span>
+          <span class="tag">Orbital Science</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ISS SUB-CARDS -->
+    <div class="projects-grid--2" style="margin-bottom:3rem;">
+
+      <div class="project-card">
+        <div class="project-img">
+          <!-- Add your NDVI-processed Italy image here — this is the showstopper -->
+          <!-- <img src="ndvi-italy.jpg" alt="NDVI Vegetation Analysis"> -->
+          <span class="img-icon">🌿</span>
+          <span>Add NDVI Italy image</span>
+        </div>
+        <div class="project-title">Orbital Wildfire Risk Mapping</div>
+        <div class="project-org">ISS · Experiment I</div>
+        <p class="project-desc">Captured time-lapse imagery from orbit and applied NDVI analysis to quantify vegetation health across large geographic regions. Used the resulting spectral data to model wildfire probability and map areas of elevated risk — the same remote sensing methodology used by climate and forestry agencies. Recognised as a global Top 50 Finalist out of thousands of international submissions to ESA Mission Space Lab.</p>
+        <div class="project-tags">
+          <span class="tag">NDVI Analysis</span>
+          <span class="tag">Remote Sensing</span>
+          <span class="tag">Python</span>
+          <span class="tag">Climate Science</span>
+          <span class="tag">Top 50 Global Finalist</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-img">
+            <img src="Elevation.png" alt="Earth Mass Map">
+        </div>
+        <div class="project-title">Earth Mass Distribution Map</div>
+        <div class="project-org">ISS · Experiment II</div>
+        <p class="project-desc">Calculated the ISS's real-time orbital velocity to derive local gravitational acceleration at each position, then inverted the relationship to estimate Earth's subsurface mass distribution — effectively mapping major geological features from orbit. Recognised as a global Top 50 Finalist out of thousands of international submissions to ESA Mission Space Lab.</p>
+        <div class="project-tags">
+          <span class="tag">Orbital Mechanics</span>
+          <span class="tag">Gravitational Physics</span>
+          <span class="tag">Python</span>
+          <span class="tag">Geophysics</span>
+          <span class="tag">Top 50 Global Finalist</span>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- LAB PROJECTS -->
+    <p class="section-sublabel">UBC Molecular Data Storage Lab</p>
+    <div class="projects-grid--2" style="margin-bottom:3rem;">
+
+      <div class="project-card">
+        <div class="project-img">
+          <!-- Replace with: <img src="tirf-chamber.jpg" alt="TIRF Microscope Chamber"> -->
+          <span class="img-icon">🧫</span>
+          <span>Add chamber photo</span>
+        </div>
+        <div class="project-title">TIRF Microscope Sample Chamber</div>
+        <div class="project-org">UBC Molecular Data Storage Lab · Oct 2024 – Present</div>
+        <p class="project-desc">Designed and fabricated a custom fluidic chamber for TIRF microscopy imaging of DNA origami samples. The chamber pushes liquid through in a controlled flow to uniformly coat all areas of the glass surface, while maintaining a sealed environment to prevent evaporation over multi-hour acquisitions — enabling stable, repeatable imaging at ~20nm resolution.</p>
+        <div class="project-tags">
+          <span class="tag">Microfluidics</span>
+          <span class="tag">Mechanical Design</span>
+          <span class="tag">TIRF Microscopy</span>
+          <span class="tag">DNA Origami</span>
+          <span class="tag">Precision Fabrication</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-img">
+          <!-- Replace with: <img src="drift-correction.jpg" alt="Drift Correction"> -->
+          <span class="img-icon">🔬</span>
+          <span>Add project photo</span>
+        </div>
+        <div class="project-title">Nanoscale Drift Correction Program</div>
+        <div class="project-org">UBC Molecular Data Storage Lab · Sep – Dec 2025</div>
+        <p class="project-desc">Gaussian fitting to localize gold fiducial markers on DNA samples with &lt;10nm precision. Interfaced with microscope camera and stage hardware to correct drift in real time and created a protocol to adhere fiducial markers to DNA origami samples over 3-hour acquisitions.</p>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Gaussian Fitting</span>
+          <span class="tag">AFM / Microscopy</span>
+          <span class="tag">Hardware Interface</span>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- OTHER PROJECTS -->
+    <p class="section-sublabel">Other Projects</p>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-img">
+            <img src="Loop_Image.jpg" alt="AI Fatigue Tracker">
+        </div>
+        <div class="project-eyebrow">Hackathon · Top 6 of 180 Teams</div>
+        <div class="project-title">AI Fatigue & Sleep Tracker</div>
+        <div class="project-org">24-Hour Hackathon · Canada</div>
+        <p class="project-desc">Designed and built the complete hardware system in 24 hours for an AI-powered fatigue and sleep tracker. Integrated a MAX30100 pulse oximeter with a Raspberry Pi, wiring a physical button and LED interface for user interaction. Hardware fed live heart rate data to a teammate's Flask backend and DeepSeek analytical model, which scored fatigue levels and powered a smart alarm that wakes users at their lightest sleep phase. Placed Top 6 Finalist out of ~180 teams nationally.</p>
+        <div class="project-tags">
+          <span class="tag">Raspberry Pi</span>
+          <span class="tag">MAX30100</span>
+          <span class="tag">Hardware Integration</span>
+          <span class="tag">Sensor Interfacing</span>
+          <span class="tag">Top 6 / 180 Teams</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-img">
+            <img src="cansat_landing.jpg" alt="Atmospheric Probe">
+        </div>
+        <div class="project-title">Atmospheric Data Collection Probe</div>
+        <div class="project-org">Personal Project · Oct 2022 – May 2024</div>
+        <p class="project-desc">Designed, soldered, and programmed 2 atmospheric data collection probes with an onboard turbine for power generation and a LIDAR-driven airbag descent system. Launched to 1km altitude and successfully recovered with minimal damage.</p>
+        <div class="project-tags">
+          <span class="tag">PCB Design</span>
+          <span class="tag">LIDAR</span>
+          <span class="tag">Power Generation</span>
+          <span class="tag">Embedded C</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-img">
+          <img src="FRC.jpg" alt="STRIX Robotics">
+        </div>
+        <div class="project-title">Competitive Robotics Founder — FIRST</div>
+        <div class="project-org">9550 STRIX Robotics · Sep 2021 – Mar 2024</div>
+        <p class="project-desc">Led design and assembly of electromechanical systems — drive base, pivoting arm, and variable-speed launcher — competing against 38 international teams. Founded and grew the team to 25+ members and raised over $20,000 through sponsorships and grants.</p>
+        <div class="project-tags">
+          <span class="tag">Electromechanical</span>
+          <span class="tag">Team Leadership</span>
+          <span class="tag">Sponsorship</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- AWARDS -->
+<section id="awards">
+  <div class="container">
+    <p class="section-label">Awards</p>
+    <h2>Recognition &amp; <em style="font-family:var(--serif);font-style:italic">Scholarships.</em></h2>
+    <div class="awards-grid">
+      <div class="award-card">
+        <div class="award-year">2025</div>
+        <div class="award-name">UBC Deputy Vice Chancellor's Scholarship</div>
+      </div>
+      <div class="award-card">
+        <div class="award-year">2024</div>
+        <div class="award-name">UBC Presidential Scholars Award</div>
+      </div>
+      <div class="award-card">
+        <div class="award-year">2024</div>
+        <div class="award-name">Beedie Luminaries SHINE Scholarship</div>
+      </div>
+      <div class="award-card">
+        <div class="award-year">2024</div>
+        <div class="award-name">Young Citizen of the Year Finalist — City of Kelowna</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <p class="section-label">Skills</p>
+    <h2>Tools &amp; <em style="font-family:var(--serif);font-style:italic">Technologies.</em></h2>
+    <div class="skills-layout">
+      <div class="skill-group">
+        <h3>Electronic &amp; Embedded</h3>
+        <div class="skill-item">Analog/Digital Circuit Design <span class="skill-bar-wrap"><div class="skill-bar" style="width:90%"></div></span></div>
+        <div class="skill-item">STM32 / ESP32 Development <span class="skill-bar-wrap"><div class="skill-bar" style="width:88%"></div></span></div>
+        <div class="skill-item">Fine Pitch SMD Soldering <span class="skill-bar-wrap"><div class="skill-bar" style="width:92%"></div></span></div>
+        <div class="skill-item">Oscilloscope / Instruments <span class="skill-bar-wrap"><div class="skill-bar" style="width:90%"></div></span></div>
+      </div>
+      <div class="skill-group">
+        <h3>Design Tools</h3>
+        <div class="skill-item">Altium Designer <span class="skill-bar-wrap"><div class="skill-bar" style="width:88%"></div></span></div>
+        <div class="skill-item">KiCad (Schematic &amp; PCB) <span class="skill-bar-wrap"><div class="skill-bar" style="width:85%"></div></span></div>
+        <div class="skill-item">SolidWorks &amp; FEA <span class="skill-bar-wrap"><div class="skill-bar" style="width:75%"></div></span></div>
+        <div class="skill-item">Version Control / GitHub <span class="skill-bar-wrap"><div class="skill-bar" style="width:82%"></div></span></div>
+      </div>
+      <div class="skill-group">
+        <h3>Programming &amp; Analysis</h3>
+        <div class="skill-item">C++ Embedded Programming <span class="skill-bar-wrap"><div class="skill-bar" style="width:88%"></div></span></div>
+        <div class="skill-item">Python <span class="skill-bar-wrap"><div class="skill-bar" style="width:85%"></div></span></div>
+        <div class="skill-item">MATLAB &amp; Simulink <span class="skill-bar-wrap"><div class="skill-bar" style="width:80%"></div></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-layout">
+      <div>
+        <p class="section-label">Contact</p>
+        <h2>Let's <em style="font-family:var(--serif);font-style:italic">connect.</em></h2>
+        <p class="contact-blurb">Whether you have a co-op opportunity, a project in mind, or just want to talk circuits — I'd love to hear from you.</p>
+        <div class="contact-links">
+          <a href="/cdn-cgi/l/email-protection#0b636a786a6569664b787f7e6f6e657f257e696825686a" class="contact-link">
+            <div class="contact-link-icon">✉</div>
+            <span class="__cf_email__" data-cfemail="88e0e9fbe9e6eae5c8fbfcfdecede6fca6fdeaeba6ebe9">[email&#160;protected]</span>
+          </a>
+          <a href="tel:2367956566" class="contact-link">
+            <div class="contact-link-icon">☎</div>
+            236-795-6566
+          </a>
+          <a href="https://www.linkedin.com/in/hasan-moh/" target="_blank" class="contact-link">
+            <div class="contact-link-icon">in</div>
+            linkedin.com/in/hasan-moh
+          </a>
+        </div>
+      </div>
+      <div class="contact-form">
+        <div class="form-field">
+          <label>Name</label>
+          <input type="text" placeholder="Your name" />
+        </div>
+        <div class="form-field">
+          <label>Email</label>
+          <input type="email" placeholder="your@email.com" />
+        </div>
+        <div class="form-field">
+          <label>Message</label>
+          <textarea rows="5" placeholder="Tell me what's on your mind..."></textarea>
+        </div>
+        <button class="btn-send">Send Message →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Hasan Mohammad (He/Him)</span>
+  <span>Electrical Engineering — UBC Okanagan</span>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Scroll reveal — uses rootMargin so elements already on screen are visible immediately
+  const reveals = document.querySelectorAll('.reveal');
+  if (reveals.length > 0) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'none';
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+    reveals.forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.6s ease, tr
